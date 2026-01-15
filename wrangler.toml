@@ -5,5 +5,5 @@ type = "static"
 account_id = manysiblings921@gmail.com
 
 [site]
-bucket = "public"
-entry-point = "public"
+bucket = "./public"
+entry-point = "./public"
