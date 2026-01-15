@@ -1,9 +1,0 @@
-name = "123mediahub"
-compatibility_date = "2026-01-15"
-type = "static"
-
-account_id =1eecf49cc7de67e2406fa74384bcf44e
-
-[site]
-bucket = "./public"
-entry-point = "./public"
