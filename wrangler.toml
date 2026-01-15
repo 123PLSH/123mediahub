@@ -1,0 +1,9 @@
+name = "123mediahub"
+compatibility_date = "2026-01-15"
+type = "static"
+
+account_id = manysiblings921@gmail.com
+
+[site]
+bucket = "public"
+entry-point = "public"
