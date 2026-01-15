@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MediaHub 是一个防丢失的媒体分享网站，提供稳定的访问线路，确保随时访问电影、音乐等媒体资源。">
+  <title>MediaHub 防丢失媒体分享网站</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:"Helvetica Neue",Arial,sans-serif;
+      min-height:100vh;
+      background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+      color:#333;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      position:relative
+    }
+    header{
+      text-align:center;
+      margin-bottom:40px;
+      color:#fff
+    }
+    header h1{
+      font-size:3rem;
+      margin-bottom:10px;
+      text-shadow:2px 2px 4px rgba(0,0,0,.5)
+    }
+    header p{
+      font-size:1.2rem;
+      opacity:.9
+    }
+    .container{
+      background:rgba(255,255,255,.95);
+      padding:50px 60px;
+      border-radius:20px;
+      box-shadow:0 15px 35px rgba(0,0,0,.1);
+      text-align:center;
+      max-width:600px;
+      width:90%;
+      backdrop-filter:blur(10px)
+    }
+    h2{
+      font-size:2rem;
+      margin-bottom:20px;
+      color:#0078D7
+    }
+    p{
+      margin:15px 0;
+      font-size:1.1rem;
+      line-height:1.6
+    }
+    .links{
+      margin:30px 0
+    }
+    .links h3{
+      font-size:1.5rem;
+      margin-bottom:15px;
+      color:#0078D7
+    }
+    .links ul{
+      list-style:none;
+      padding:0
+    }
+    .links li{
+      margin:10px 0
+    }
+    a.button,button.button{
+      display:inline-block;
+      margin:10px 5px;
+      padding:12px 25px;
+      background:#0078D7;
+      color:#fff;
+      text-decoration:none;
+      border-radius:8px;
+      font-weight:600;
+      transition:all .3s ease;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 4px 15px rgba(0,120,215,.3);
+      font-size:1rem
+    }
+    a.button:hover,button.button:hover{
+      background:#005ea3;
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(0,120,215,.5)
+    }
+    .button.secondary{
+      background:#28a745
+    }
+    .button.secondary:hover{
+      background:#218838;
+      box-shadow:0 6px 20px rgba(40,167,69,.5)
+    }
+    footer{
+      margin-top:40px;
+      text-align:center;
+      color:#fff;
+      opacity:.8
+    }
+    @media(max-width:768px){
+      header h1{font-size:2.5rem}
+      .container{padding:30px 40px}
+      a.button,button.button{margin:10px;padding:12px 25px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-film"></i> MediaHub</h1>
+    <p>防丢失媒体分享网站</p>
+  </header>
+  <div class="container">
+    <h2>欢迎访问</h2>
+    <p>MediaHub 提供稳定的媒体资源访问。</p>
+    <div class="links">
+      <h3>访问线路</h3>
+      <ul>
+        <li><a href="http://117.72.146.0:3000/movies" target="_blank" rel="noopener noreferrer" class="button"><i class="fas fa-play"></i> 电影站 (主线路)</a></li>
+      </ul>
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2026 MediaHub</p>
+  </footer>
+  <script>
+    (function(){
+      function addToFavorites(){
+        if(window.sidebar&&window.sidebar.addPanel){
+          window.sidebar.addPanel(document.title,window.location.href,'');
+        }else if(window.external&&'AddFavorite' in window.external){
+          window.external.AddFavorite(location.href,document.title);
+        }else{
+          alert('请按 Ctrl+D (或 Cmd+D on Mac) 添加到收藏夹');
+        }
+      }
+      window.addToFavorites=addToFavorites;
+    })();
+  </script>
+</body>
+</html>
