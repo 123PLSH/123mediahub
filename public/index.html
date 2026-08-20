@@ -5,139 +5,327 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MediaHub 是一个防丢失的媒体分享网站，提供稳定的访问线路，确保随时访问电影、音乐等媒体资源。">
   <title>MediaHub 防丢失媒体分享网站</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+  <link rel="icon" href="/favicon.icon" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/favicon.icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:"Helvetica Neue",Arial,sans-serif;
-      min-height:100vh;
-      background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
-      color:#333;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      position:relative
+    :root {
+      --bg-deep: #0a0c10;
+      --bg-mid: #12161f;
+      --ink: #f4f0e8;
+      --muted: #9b958a;
+      --accent: #d4a017;
+      --accent-hot: #f0c14b;
+      --line: rgba(244, 240, 232, 0.12);
+      --glow: rgba(212, 160, 23, 0.35);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
-    header{
-      text-align:center;
-      margin-bottom:40px;
-      color:#fff
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    header h1{
-      font-size:3rem;
-      margin-bottom:10px;
-      text-shadow:2px 2px 4px rgba(0,0,0,.5)
+
+    html {
+      height: 100%;
     }
-    header p{
-      font-size:1.2rem;
-      opacity:.9
+
+    body {
+      min-height: 100%;
+      font-family: "Noto Sans SC", sans-serif;
+      color: var(--ink);
+      background: var(--bg-deep);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.25rem 2rem;
+      position: relative;
+      overflow-x: hidden;
     }
-    .container{
-      background:rgba(255,255,255,.95);
-      padding:50px 60px;
-      border-radius:20px;
-      box-shadow:0 15px 35px rgba(0,0,0,.1);
-      text-align:center;
-      max-width:600px;
-      width:90%;
-      backdrop-filter:blur(10px)
+
+    /* Atmosphere: radial wash + subtle grain */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% -10%, rgba(212, 160, 23, 0.18), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 85% 80%, rgba(40, 70, 110, 0.25), transparent 50%),
+        radial-gradient(ellipse 50% 35% at 10% 70%, rgba(90, 40, 30, 0.2), transparent 45%),
+        linear-gradient(180deg, var(--bg-mid) 0%, var(--bg-deep) 100%);
+      z-index: -2;
+      animation: wash 14s ease-in-out infinite alternate;
     }
-    h2{
-      font-size:2rem;
-      margin-bottom:20px;
-      color:#0078D7
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: -1;
     }
-    p{
-      margin:15px 0;
-      font-size:1.1rem;
-      line-height:1.6
+
+    @keyframes wash {
+      from { filter: hue-rotate(0deg) brightness(1); }
+      to { filter: hue-rotate(8deg) brightness(1.05); }
     }
-    .links{
-      margin:30px 0
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .links h3{
-      font-size:1.5rem;
-      margin-bottom:15px;
-      color:#0078D7
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--glow); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
     }
-    .links ul{
-      list-style:none;
-      padding:0
+
+    .shell {
+      width: min(440px, 100%);
+      text-align: center;
+      animation: rise 0.8s var(--ease) both;
     }
-    .links li{
-      margin:10px 0
+
+    .brand {
+      font-family: Outfit, "Noto Sans SC", sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.75rem, 10vw, 4rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.65rem;
     }
-    a.button,button.button{
-      display:inline-block;
-      margin:10px 5px;
-      padding:12px 25px;
-      background:#0078D7;
-      color:#fff;
-      text-decoration:none;
-      border-radius:8px;
-      font-weight:600;
-      transition:all .3s ease;
-      border:none;
-      cursor:pointer;
-      box-shadow:0 4px 15px rgba(0,120,215,.3);
-      font-size:1rem
+
+    .brand span {
+      background: linear-gradient(120deg, var(--ink) 40%, var(--accent-hot) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-    a.button:hover,button.button:hover{
-      background:#005ea3;
-      transform:translateY(-2px);
-      box-shadow:0 6px 20px rgba(0,120,215,.5)
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-bottom: 2.25rem;
+      animation: rise 0.8s var(--ease) 0.12s both;
     }
-    .button.secondary{
-      background:#28a745
+
+    .lede {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
+      animation: rise 0.8s var(--ease) 0.2s both;
     }
-    .button.secondary:hover{
-      background:#218838;
-      box-shadow:0 6px 20px rgba(40,167,69,.5)
+
+    .routes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      animation: rise 0.8s var(--ease) 0.28s both;
     }
-    footer{
-      margin-top:40px;
-      text-align:center;
-      color:#fff;
-      opacity:.8
+
+    .routes a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.15rem;
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.03);
+      transition: border-color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
     }
-    @media(max-width:768px){
-      header h1{font-size:2.5rem}
-      .container{padding:30px 40px}
-      a.button,button.button{margin:10px;padding:12px 25px}
+
+    .routes a:hover,
+    .routes a:focus-visible {
+      border-color: rgba(212, 160, 23, 0.55);
+      background: rgba(212, 160, 23, 0.08);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .routes a:active {
+      transform: translateY(0);
+    }
+
+    .route-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+      text-align: left;
+    }
+
+    .route-label {
+      font-family: Outfit, "Noto Sans SC", sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .route-hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .route-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--accent-hot);
+      white-space: nowrap;
+    }
+
+    .route-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+    }
+
+    .routes a.alt .route-badge {
+      color: var(--muted);
+    }
+
+    .routes a.alt .route-badge::before {
+      background: var(--muted);
+      animation: none;
+    }
+
+    .actions {
+      margin-top: 1.5rem;
+      animation: rise 0.8s var(--ease) 0.36s both;
+    }
+
+    .actions button {
+      font-family: inherit;
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid transparent;
+      cursor: pointer;
+      padding: 0.25rem 0;
+      transition: color 0.25s, border-color 0.25s;
+    }
+
+    .actions button:hover,
+    .actions button:focus-visible {
+      color: var(--accent-hot);
+      border-bottom-color: var(--accent);
+      outline: none;
+    }
+
+    footer {
+      margin-top: 2.75rem;
+      font-size: 0.8rem;
+      color: rgba(155, 149, 138, 0.7);
+      animation: rise 0.8s var(--ease) 0.42s both;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 2rem 1rem 1.5rem;
+        justify-content: flex-start;
+        padding-top: 12vh;
+      }
+
+      .routes a {
+        padding: 0.95rem 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1><i class="fas fa-film"></i> MediaHub</h1>
-    <p>防丢失媒体分享网站</p>
-  </header>
-  <div class="container">
-    <h2>欢迎访问</h2>
-    <p>MediaHub 提供稳定的媒体资源访问。</p>
-    <div class="links">
-      <h3>访问线路</h3>
-      <ul>
-        <li><a href="http://117.72.146.0/movies" target="_blank" rel="noopener noreferrer" class="button"><i class="fas fa-play"></i> 电影站 (主线路)</a></li>
-      </ul>
+  <main class="shell">
+    <h1 class="brand"><span>MediaHub</span></h1>
+    <p class="tagline">防丢失媒体分享网站</p>
+    <p class="lede">多线路互备，稳定访问电影等媒体资源。任选一条即可进入。</p>
+
+    <nav class="routes" aria-label="访问线路">
+      <a href="http://117.72.146.0:3000/movies" target="_blank" rel="noopener noreferrer">
+        <span class="route-meta">
+          <span class="route-label">电影站</span>
+          <span class="route-hint">主线路 · 端口 3000</span>
+        </span>
+        <span class="route-badge">推荐</span>
+      </a>
+      <a class="alt" href="http://117.72.146.0/movies" target="_blank" rel="noopener noreferrer">
+        <span class="route-meta">
+          <span class="route-label">电影站</span>
+          <span class="route-hint">备用线路 · 标准端口</span>
+        </span>
+        <span class="route-badge">备用</span>
+      </a>
+      <a class="alt" href="http://45.113.3.26/movies" target="_blank" rel="noopener noreferrer">
+        <span class="route-meta">
+          <span class="route-label">电影站</span>
+          <span class="route-hint">线路三 · 45.113.3.26</span>
+        </span>
+        <span class="route-badge">备用</span>
+      </a>
+    </nav>
+
+    <div class="actions">
+      <button type="button" id="bookmark-btn">收藏本站，防止丢失</button>
     </div>
-  </div>
+  </main>
+
   <footer>
     <p>&copy; 2026 MediaHub</p>
   </footer>
+
   <script>
-    (function(){
-      function addToFavorites(){
-        if(window.sidebar&&window.sidebar.addPanel){
-          window.sidebar.addPanel(document.title,window.location.href,'');
-        }else if(window.external&&'AddFavorite' in window.external){
-          window.external.AddFavorite(location.href,document.title);
-        }else{
-          alert('请按 Ctrl+D (或 Cmd+D on Mac) 添加到收藏夹');
+    (function () {
+      var btn = document.getElementById("bookmark-btn");
+      if (!btn) return;
+
+      btn.addEventListener("click", function () {
+        var isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent);
+        var tip = isMac
+          ? "请按 ⌘ + D 将本页加入收藏夹"
+          : "请按 Ctrl + D 将本页加入收藏夹";
+
+        if (window.sidebar && typeof window.sidebar.addPanel === "function") {
+          window.sidebar.addPanel(document.title, window.location.href, "");
+          return;
         }
-      }
-      window.addToFavorites=addToFavorites;
+        if (window.external && "AddFavorite" in window.external) {
+          try {
+            window.external.AddFavorite(location.href, document.title);
+            return;
+          } catch (e) { /* fall through */ }
+        }
+        alert(tip);
+      });
     })();
   </script>
 </body>
