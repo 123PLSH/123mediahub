@@ -9,29 +9,28 @@
   <link rel="apple-touch-icon" href="/favicon.icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #0a0c10;
-      --bg-mid: #12161f;
-      --ink: #f4f0e8;
-      --muted: #9b958a;
+      --bg-deep: #07090d;
+      --bg-mid: #10141c;
+      --ink: #f5f1e9;
+      --muted: #8f897e;
       --accent: #d4a017;
       --accent-hot: #f0c14b;
-      --line: rgba(244, 240, 232, 0.12);
-      --glow: rgba(212, 160, 23, 0.35);
+      --ok: #3ecf8e;
+      --ok-dim: rgba(62, 207, 142, 0.14);
+      --warn: #e6b84d;
+      --bad: #ff6b6b;
+      --bad-dim: rgba(255, 107, 107, 0.12);
+      --line: rgba(245, 241, 233, 0.1);
+      --surface: rgba(255, 255, 255, 0.035);
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      height: 100%;
-    }
+    html { height: 100%; }
 
     body {
       min-height: 100%;
@@ -42,189 +41,356 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2.5rem 1.25rem 2rem;
+      padding: 2.75rem 1.25rem 2rem;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Atmosphere: radial wash + subtle grain */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 55% at 50% -10%, rgba(212, 160, 23, 0.18), transparent 55%),
-        radial-gradient(ellipse 60% 40% at 85% 80%, rgba(40, 70, 110, 0.25), transparent 50%),
-        radial-gradient(ellipse 50% 35% at 10% 70%, rgba(90, 40, 30, 0.2), transparent 45%),
-        linear-gradient(180deg, var(--bg-mid) 0%, var(--bg-deep) 100%);
+        radial-gradient(ellipse 90% 50% at 50% -15%, rgba(212, 160, 23, 0.16), transparent 55%),
+        radial-gradient(ellipse 45% 35% at 92% 75%, rgba(45, 85, 130, 0.22), transparent 50%),
+        radial-gradient(ellipse 40% 30% at 8% 65%, rgba(110, 45, 35, 0.18), transparent 45%),
+        linear-gradient(180deg, var(--bg-mid), var(--bg-deep));
       z-index: -2;
-      animation: wash 14s ease-in-out infinite alternate;
+      animation: wash 16s ease-in-out infinite alternate;
     }
 
     body::after {
       content: "";
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-      opacity: 0.4;
+      opacity: 0.35;
       pointer-events: none;
       z-index: -1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
     }
 
     @keyframes wash {
-      from { filter: hue-rotate(0deg) brightness(1); }
-      to { filter: hue-rotate(8deg) brightness(1.05); }
+      from { filter: brightness(1); }
+      to { filter: brightness(1.06); }
     }
 
     @keyframes rise {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--glow); }
-      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
     }
 
     .shell {
-      width: min(440px, 100%);
+      width: min(460px, 100%);
       text-align: center;
-      animation: rise 0.8s var(--ease) both;
+      animation: rise 0.75s var(--ease) both;
     }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 1.1rem;
+      border: 1px solid rgba(212, 160, 23, 0.45);
+      display: grid;
+      place-items: center;
+      color: var(--accent-hot);
+      animation: rise 0.75s var(--ease) 0.04s both;
+    }
+
+    .mark svg { width: 22px; height: 22px; }
 
     .brand {
       font-family: Outfit, "Noto Sans SC", sans-serif;
       font-weight: 800;
-      font-size: clamp(2.75rem, 10vw, 4rem);
-      letter-spacing: -0.03em;
+      font-size: clamp(2.6rem, 9.5vw, 3.75rem);
+      letter-spacing: -0.035em;
       line-height: 1;
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.55rem;
     }
 
     .brand span {
-      background: linear-gradient(120deg, var(--ink) 40%, var(--accent-hot) 100%);
+      background: linear-gradient(115deg, var(--ink) 35%, var(--accent-hot) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
     .tagline {
-      font-size: 1rem;
+      font-size: 0.92rem;
       color: var(--muted);
-      letter-spacing: 0.12em;
-      margin-bottom: 2.25rem;
-      animation: rise 0.8s var(--ease) 0.12s both;
+      letter-spacing: 0.14em;
+      margin-bottom: 1.1rem;
+      animation: rise 0.75s var(--ease) 0.1s both;
     }
 
     .lede {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--muted);
       line-height: 1.65;
-      margin-bottom: 1.75rem;
-      animation: rise 0.8s var(--ease) 0.2s both;
+      margin-bottom: 1.6rem;
+      animation: rise 0.75s var(--ease) 0.16s both;
+    }
+
+    .panel {
+      text-align: left;
+      animation: rise 0.75s var(--ease) 0.22s both;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .panel-title {
+      font-family: Outfit, "Noto Sans SC", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .summary {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .summary strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .refresh {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: inherit;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--line);
+      padding: 0.35rem 0.65rem;
+      cursor: pointer;
+      transition: color 0.25s, border-color 0.25s, background 0.25s;
+    }
+
+    .refresh:hover,
+    .refresh:focus-visible {
+      color: var(--accent-hot);
+      border-color: rgba(212, 160, 23, 0.45);
+      background: rgba(212, 160, 23, 0.06);
+      outline: none;
+    }
+
+    .refresh:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+
+    .refresh svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .refresh.is-busy svg {
+      animation: spin 0.8s linear infinite;
     }
 
     .routes {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      animation: rise 0.8s var(--ease) 0.28s both;
+      gap: 0.65rem;
+      list-style: none;
     }
 
-    .routes a {
-      display: flex;
+    .route {
+      display: grid;
+      grid-template-columns: 1fr auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1.15rem;
+      gap: 0.85rem;
+      padding: 1rem 1.05rem;
       text-decoration: none;
       color: var(--ink);
       border: 1px solid var(--line);
-      border-radius: 2px;
-      background: rgba(255, 255, 255, 0.03);
-      transition: border-color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+      transition:
+        border-color 0.3s var(--ease),
+        background 0.3s var(--ease),
+        transform 0.3s var(--ease),
+        opacity 0.3s;
     }
 
-    .routes a:hover,
-    .routes a:focus-visible {
-      border-color: rgba(212, 160, 23, 0.55);
-      background: rgba(212, 160, 23, 0.08);
+    .route::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: transparent;
+      transition: background 0.3s;
+    }
+
+    .route:hover,
+    .route:focus-visible {
+      border-color: rgba(212, 160, 23, 0.5);
+      background: rgba(212, 160, 23, 0.07);
       transform: translateY(-2px);
       outline: none;
     }
 
-    .routes a:active {
-      transform: translateY(0);
+    .route.is-checking {
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%) 0 0 / 200% 100%,
+        var(--surface);
+      animation: shimmer 1.4s linear infinite;
     }
+
+    .route.is-online::before { background: var(--ok); }
+    .route.is-online {
+      border-color: rgba(62, 207, 142, 0.28);
+      background: var(--ok-dim);
+    }
+
+    .route.is-offline::before { background: var(--bad); }
+    .route.is-offline {
+      border-color: rgba(255, 107, 107, 0.22);
+      background: var(--bad-dim);
+      opacity: 0.78;
+    }
+
+    .route.is-best {
+      border-color: rgba(212, 160, 23, 0.55);
+      box-shadow: 0 0 0 1px rgba(212, 160, 23, 0.12);
+    }
+
+    .route.is-best::before { background: var(--accent); }
 
     .route-meta {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 0.2rem;
-      text-align: left;
+      gap: 0.22rem;
+      min-width: 0;
     }
 
-    .route-label {
+    .route-top {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+      .route-label {
       font-family: Outfit, "Noto Sans SC", sans-serif;
       font-weight: 600;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
+    }
+
+    .route-chip {
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      color: var(--accent-hot);
+      border: 1px solid rgba(212, 160, 23, 0.35);
+      padding: 0.08rem 0.4rem;
+      line-height: 1.4;
     }
 
     .route-hint {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .route-status {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.15rem;
+      flex-shrink: 0;
+      min-width: 4.5rem;
+    }
+
+    .status-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
       color: var(--muted);
     }
 
-    .route-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      color: var(--accent-hot);
-      white-space: nowrap;
-    }
-
-    .route-badge::before {
-      content: "";
+    .status-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--accent);
-      animation: pulse-dot 2.2s ease-in-out infinite;
-    }
-
-    .routes a.alt .route-badge {
-      color: var(--muted);
-    }
-
-    .routes a.alt .route-badge::before {
       background: var(--muted);
-      animation: none;
+      flex-shrink: 0;
+    }
+
+    .route.is-checking .status-dot {
+      background: var(--warn);
+      animation: spin 0.9s linear infinite;
+      border-radius: 1px;
+      width: 7px;
+      height: 7px;
+    }
+
+    .route.is-online .status-text { color: var(--ok); }
+    .route.is-online .status-dot { background: var(--ok); }
+
+    .route.is-offline .status-text { color: var(--bad); }
+    .route.is-offline .status-dot { background: var(--bad); }
+
+    .latency {
+      font-family: Outfit, "Noto Sans SC", sans-serif;
+      font-size: 0.78rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      opacity: 0.85;
+      min-height: 1.1em;
+    }
+
+    .latency:empty::after {
+      content: "—";
+      color: var(--muted);
+      opacity: 0.6;
     }
 
     .actions {
-      margin-top: 1.5rem;
-      animation: rise 0.8s var(--ease) 0.36s both;
+      margin-top: 1.45rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 1.25rem;
+      animation: rise 0.75s var(--ease) 0.3s both;
     }
 
     .actions button {
       font-family: inherit;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--muted);
       background: transparent;
       border: none;
       border-bottom: 1px solid transparent;
       cursor: pointer;
-      padding: 0.25rem 0;
+      padding: 0.2rem 0;
       transition: color 0.25s, border-color 0.25s;
     }
 
@@ -235,29 +401,34 @@
       outline: none;
     }
 
+    .note {
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      color: rgba(143, 137, 126, 0.85);
+      animation: rise 0.75s var(--ease) 0.34s both;
+    }
+
     footer {
-      margin-top: 2.75rem;
-      font-size: 0.8rem;
-      color: rgba(155, 149, 138, 0.7);
-      animation: rise 0.8s var(--ease) 0.42s both;
+      margin-top: 2.5rem;
+      font-size: 0.78rem;
+      color: rgba(143, 137, 126, 0.65);
+      animation: rise 0.75s var(--ease) 0.38s both;
     }
 
     @media (max-width: 480px) {
       body {
-        padding: 2rem 1rem 1.5rem;
         justify-content: flex-start;
-        padding-top: 12vh;
+        padding-top: 10vh;
       }
 
-      .routes a {
-        padding: 0.95rem 1rem;
+      .panel-head {
+        flex-wrap: wrap;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
+      *, *::before, *::after {
         animation: none !important;
         transition: none !important;
       }
@@ -266,37 +437,39 @@
 </head>
 <body>
   <main class="shell">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="3" y="5" width="18" height="14" rx="1.5"/>
+        <path d="M8 5v14M16 5v14M3 9.5h5M16 9.5h5M3 14.5h5M16 14.5h5"/>
+      </svg>
+    </div>
+
     <h1 class="brand"><span>MediaHub</span></h1>
     <p class="tagline">防丢失媒体分享网站</p>
-    <p class="lede">多线路互备，稳定访问电影等媒体资源。任选一条即可进入。</p>
+    <p class="lede">多线路互备，自动检测连通性。优先选择延迟更低、状态畅通的线路。</p>
 
-    <nav class="routes" aria-label="访问线路">
-      <a href="http://117.72.146.0:3000/movies" target="_blank" rel="noopener noreferrer">
-        <span class="route-meta">
-          <span class="route-label">电影站</span>
-          <span class="route-hint">主线路 · 端口 3000</span>
-        </span>
-        <span class="route-badge">推荐</span>
-      </a>
-      <a class="alt" href="http://117.72.146.0/movies" target="_blank" rel="noopener noreferrer">
-        <span class="route-meta">
-          <span class="route-label">电影站</span>
-          <span class="route-hint">备用线路 · 标准端口</span>
-        </span>
-        <span class="route-badge">备用</span>
-      </a>
-      <a class="alt" href="http://45.113.3.26/movies" target="_blank" rel="noopener noreferrer">
-        <span class="route-meta">
-          <span class="route-label">电影站</span>
-          <span class="route-hint">线路三 · 45.113.3.26</span>
-        </span>
-        <span class="route-badge">备用</span>
-      </a>
-    </nav>
+    <section class="panel" aria-labelledby="routes-title">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title" id="routes-title">访问线路</h2>
+          <p class="summary" id="summary" aria-live="polite">准备检测…</p>
+        </div>
+        <button type="button" class="refresh" id="refresh-btn" aria-label="重新检测连通性">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12a9 9 0 1 1-2.3-6"/>
+            <path d="M21 3v6h-6"/>
+          </svg>
+          检测
+        </button>
+      </div>
+
+      <ul class="routes" id="routes" aria-label="访问线路列表"></ul>
+    </section>
 
     <div class="actions">
       <button type="button" id="bookmark-btn">收藏本站，防止丢失</button>
     </div>
+    <p class="note" id="probe-note" hidden></p>
   </main>
 
   <footer>
@@ -305,10 +478,248 @@
 
   <script>
     (function () {
-      var btn = document.getElementById("bookmark-btn");
-      if (!btn) return;
+      var ROUTES = [
+        {
+          id: "main-3000",
+          label: "电影站",
+          hint: "主线路 · 117.72.146.0:3000",
+          url: "http://117.72.146.0:3000/movies"
+        },
+        {
+          id: "backup-80",
+          label: "电影站",
+          hint: "备用线路 · 117.72.146.0",
+          url: "http://117.72.146.0/movies"
+        },
+        {
+          id: "line-3",
+          label: "电影站",
+          hint: "线路三 · 45.113.3.26",
+          url: "http://45.113.3.26/movies"
+        }
+      ];
 
-      btn.addEventListener("click", function () {
+      var TIMEOUT_MS = 8000;
+      var listEl = document.getElementById("routes");
+      var summaryEl = document.getElementById("summary");
+      var refreshBtn = document.getElementById("refresh-btn");
+      var noteEl = document.getElementById("probe-note");
+      var results = {};
+      var useServerProbe = null;
+      var probeModePromise = null;
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function renderList() {
+        var html = "";
+        for (var i = 0; i < ROUTES.length; i++) {
+          var r = ROUTES[i];
+          var state = results[r.id] || { status: "idle" };
+          var cls = "route";
+          var statusLabel = "待检测";
+          var latency = "";
+          var chip = "";
+
+          if (state.status === "checking") {
+            cls += " is-checking";
+            statusLabel = "检测中";
+          } else if (state.status === "online") {
+            cls += " is-online";
+            statusLabel = "畅通";
+            latency = state.ms + " ms";
+            if (state.best) {
+              cls += " is-best";
+              chip = '<span class="route-chip">最快</span>';
+            }
+          } else if (state.status === "offline") {
+            cls += " is-offline";
+            statusLabel = state.error === "timeout" ? "超时" : "不可达";
+            if (typeof state.ms === "number") latency = state.ms + " ms";
+          }
+
+          html +=
+            '<li>' +
+              '<a class="' + cls + '" href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener noreferrer" data-id="' + r.id + '">' +
+                '<span class="route-meta">' +
+                  '<span class="route-top">' +
+                    '<span class="route-label">' + escapeHtml(r.label) + "</span>" +
+                    chip +
+                  "</span>" +
+                  '<span class="route-hint">' + escapeHtml(r.hint) + "</span>" +
+                "</span>" +
+                '<span class="route-status">' +
+                  '<span class="status-text"><span class="status-dot" aria-hidden="true"></span>' + statusLabel + "</span>" +
+                  '<span class="latency">' + escapeHtml(latency) + "</span>" +
+                "</span>" +
+              "</a>" +
+            "</li>";
+        }
+        listEl.innerHTML = html;
+      }
+
+      function updateSummary() {
+        var online = 0;
+        var done = 0;
+        var checking = 0;
+        for (var i = 0; i < ROUTES.length; i++) {
+          var s = (results[ROUTES[i].id] || {}).status;
+          if (s === "online") online++;
+          if (s === "online" || s === "offline") done++;
+          if (s === "checking") checking++;
+        }
+
+        if (checking > 0) {
+          summaryEl.innerHTML = "正在检测 <strong>" + checking + "</strong> 条线路…";
+          return;
+        }
+        if (done === 0) {
+          summaryEl.textContent = "准备检测…";
+          return;
+        }
+        summaryEl.innerHTML =
+          "<strong>" + online + "</strong> / " + ROUTES.length + " 条畅通" +
+          (online === 0 ? " · 可尝试手动打开" : "");
+      }
+
+      function markBest() {
+        var bestId = null;
+        var bestMs = Infinity;
+        for (var i = 0; i < ROUTES.length; i++) {
+          var id = ROUTES[i].id;
+          var s = results[id];
+          if (s && s.status === "online" && typeof s.ms === "number" && s.ms < bestMs) {
+            bestMs = s.ms;
+            bestId = id;
+          }
+          if (s) s.best = false;
+        }
+        if (bestId) results[bestId].best = true;
+      }
+
+      function sortRoutesByHealth() {
+        ROUTES.sort(function (a, b) {
+          var ra = results[a.id] || {};
+          var rb = results[b.id] || {};
+          var score = function (r) {
+            if (r.status === "online") return r.ms || 0;
+            if (r.status === "checking") return 1e7;
+            if (r.status === "offline") return 1e8;
+            return 1e9;
+          };
+          return score(ra) - score(rb);
+        });
+      }
+
+      async function probeViaServer(url) {
+        var started = performance.now();
+        var res = await fetch("/api/health?u=" + encodeURIComponent(url), {
+          cache: "no-store",
+        });
+        var data = await res.json();
+        var ms = typeof data.ms === "number" ? data.ms : Math.round(performance.now() - started);
+        if (data.ok) return { status: "online", ms: ms };
+        return { status: "offline", ms: ms, error: data.error || "unreachable" };
+      }
+
+      async function probeViaClient(url) {
+        var controller = new AbortController();
+        var timer = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
+        var started = performance.now();
+        try {
+          await fetch(url, {
+            method: "GET",
+            mode: "no-cors",
+            cache: "no-store",
+            signal: controller.signal,
+          });
+          clearTimeout(timer);
+          return { status: "online", ms: Math.round(performance.now() - started) };
+        } catch (err) {
+          clearTimeout(timer);
+          var ms = Math.round(performance.now() - started);
+          var error = err && err.name === "AbortError" ? "timeout" : "unreachable";
+          return { status: "offline", ms: ms, error: error };
+        }
+      }
+
+      function detectProbeMode() {
+        if (useServerProbe !== null) return Promise.resolve(useServerProbe);
+        if (probeModePromise) return probeModePromise;
+
+        probeModePromise = (async function () {
+          try {
+            var res = await fetch("/api/health?u=" + encodeURIComponent(ROUTES[0].url), {
+              cache: "no-store",
+            });
+            useServerProbe = res.ok || res.status === 400 || res.status === 200;
+            if (res.status >= 500) useServerProbe = false;
+          } catch (e) {
+            useServerProbe = false;
+          }
+
+          if (!useServerProbe && location.protocol === "https:") {
+            noteEl.hidden = false;
+            noteEl.textContent =
+              "当前为 HTTPS 页面，浏览器无法直接探测 HTTP 线路。请确保已部署 Cloudflare Pages Function（/api/health）。";
+          } else {
+            noteEl.hidden = true;
+          }
+          return useServerProbe;
+        })();
+
+        return probeModePromise;
+      }
+
+      async function checkOne(route, serverMode) {
+        var result;
+        try {
+          result = serverMode
+            ? await probeViaServer(route.url)
+            : await probeViaClient(route.url);
+        } catch (e) {
+          result = { status: "offline", error: "unreachable", ms: TIMEOUT_MS };
+        }
+        results[route.id] = result;
+        markBest();
+        renderList();
+        updateSummary();
+      }
+
+      async function checkAll() {
+        refreshBtn.disabled = true;
+        refreshBtn.classList.add("is-busy");
+
+        for (var i = 0; i < ROUTES.length; i++) {
+          results[ROUTES[i].id] = { status: "checking" };
+        }
+        renderList();
+        updateSummary();
+
+        var serverMode = await detectProbeMode();
+        await Promise.all(ROUTES.map(function (route) {
+          return checkOne(route, serverMode);
+        }));
+
+        markBest();
+        sortRoutesByHealth();
+        renderList();
+        updateSummary();
+
+        refreshBtn.disabled = false;
+        refreshBtn.classList.remove("is-busy");
+      }
+
+      refreshBtn.addEventListener("click", function () {
+        checkAll();
+      });
+
+      document.getElementById("bookmark-btn").addEventListener("click", function () {
         var isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent);
         var tip = isMac
           ? "请按 ⌘ + D 将本页加入收藏夹"
@@ -326,6 +737,10 @@
         }
         alert(tip);
       });
+
+      renderList();
+      updateSummary();
+      checkAll();
     })();
   </script>
 </body>
