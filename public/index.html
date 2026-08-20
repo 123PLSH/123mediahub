@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MediaHub 是一个防丢失的媒体分享网站，提供稳定的访问线路，确保随时访问电影、音乐等媒体资源。">
+  <meta name="description" content="MediaHub 防丢失媒体分享网站，多线路互备并自动检测连通性，稳定访问电影等媒体资源。">
+  <meta name="theme-color" content="#0a0c10">
+  <meta property="og:title" content="MediaHub 防丢失媒体分享网站">
+  <meta property="og:description" content="多线路互备，自动检测连通性，收藏本站防止丢失。">
+  <meta property="og:type" content="website">
   <title>MediaHub 防丢失媒体分享网站</title>
-  <link rel="icon" href="/favicon.icon" type="image/x-icon">
-  <link rel="apple-touch-icon" href="/favicon.icon">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48">
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -21,6 +26,7 @@
       --ok: #3ecf8e;
       --ok-dim: rgba(62, 207, 142, 0.14);
       --warn: #e6b84d;
+      --warn-dim: rgba(230, 184, 77, 0.12);
       --bad: #ff6b6b;
       --bad-dim: rgba(255, 107, 107, 0.12);
       --line: rgba(245, 241, 233, 0.1);
@@ -29,7 +35,6 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { height: 100%; }
 
     body {
@@ -79,9 +84,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     @keyframes shimmer {
       0% { background-position: 100% 0; }
@@ -146,7 +149,7 @@
 
     .panel-head {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 0.75rem;
       margin-bottom: 0.85rem;
@@ -165,12 +168,10 @@
       font-size: 0.78rem;
       color: var(--muted);
       font-variant-numeric: tabular-nums;
+      margin-top: 0.2rem;
     }
 
-    .summary strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
+    .summary strong { color: var(--ink); font-weight: 600; }
 
     .refresh {
       display: inline-flex;
@@ -181,9 +182,10 @@
       color: var(--muted);
       background: transparent;
       border: 1px solid var(--line);
-      padding: 0.35rem 0.65rem;
+      padding: 0.4rem 0.7rem;
       cursor: pointer;
       transition: color 0.25s, border-color 0.25s, background 0.25s;
+      flex-shrink: 0;
     }
 
     .refresh:hover,
@@ -194,19 +196,9 @@
       outline: none;
     }
 
-    .refresh:disabled {
-      opacity: 0.55;
-      cursor: wait;
-    }
-
-    .refresh svg {
-      width: 13px;
-      height: 13px;
-    }
-
-    .refresh.is-busy svg {
-      animation: spin 0.8s linear infinite;
-    }
+    .refresh:disabled { opacity: 0.55; cursor: wait; }
+    .refresh svg { width: 13px; height: 13px; }
+    .refresh.is-busy svg { animation: spin 0.8s linear infinite; }
 
     .routes {
       display: flex;
@@ -270,7 +262,13 @@
     .route.is-offline {
       border-color: rgba(255, 107, 107, 0.22);
       background: var(--bad-dim);
-      opacity: 0.78;
+      opacity: 0.82;
+    }
+
+    .route.is-unknown::before { background: var(--warn); }
+    .route.is-unknown {
+      border-color: rgba(230, 184, 77, 0.28);
+      background: var(--warn-dim);
     }
 
     .route.is-best {
@@ -294,7 +292,7 @@
       flex-wrap: wrap;
     }
 
-      .route-label {
+    .route-label {
       font-family: Outfit, "Noto Sans SC", sans-serif;
       font-weight: 600;
       font-size: 1.02rem;
@@ -323,7 +321,7 @@
       align-items: flex-end;
       gap: 0.15rem;
       flex-shrink: 0;
-      min-width: 4.5rem;
+      min-width: 4.8rem;
     }
 
     .status-text {
@@ -354,9 +352,10 @@
 
     .route.is-online .status-text { color: var(--ok); }
     .route.is-online .status-dot { background: var(--ok); }
-
     .route.is-offline .status-text { color: var(--bad); }
     .route.is-offline .status-dot { background: var(--bad); }
+    .route.is-unknown .status-text { color: var(--warn); }
+    .route.is-unknown .status-dot { background: var(--warn); }
 
     .latency {
       font-family: Outfit, "Noto Sans SC", sans-serif;
@@ -375,10 +374,6 @@
 
     .actions {
       margin-top: 1.45rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem 1.25rem;
       animation: rise 0.75s var(--ease) 0.3s both;
     }
 
@@ -404,8 +399,8 @@
     .note {
       margin-top: 1rem;
       font-size: 0.72rem;
-      line-height: 1.5;
-      color: rgba(143, 137, 126, 0.85);
+      line-height: 1.55;
+      color: rgba(143, 137, 126, 0.9);
       animation: rise 0.75s var(--ease) 0.34s both;
     }
 
@@ -420,10 +415,6 @@
       body {
         justify-content: flex-start;
         padding-top: 10vh;
-      }
-
-      .panel-head {
-        flex-wrap: wrap;
       }
     }
 
@@ -499,14 +490,11 @@
         }
       ];
 
-      var TIMEOUT_MS = 8000;
       var listEl = document.getElementById("routes");
       var summaryEl = document.getElementById("summary");
       var refreshBtn = document.getElementById("refresh-btn");
       var noteEl = document.getElementById("probe-note");
       var results = {};
-      var useServerProbe = null;
-      var probeModePromise = null;
 
       function escapeHtml(str) {
         return String(str)
@@ -540,12 +528,17 @@
           } else if (state.status === "offline") {
             cls += " is-offline";
             statusLabel = state.error === "timeout" ? "超时" : "不可达";
-            if (typeof state.ms === "number") latency = state.ms + " ms";
+            if (typeof state.ms === "number" && state.ms >= 100) {
+              latency = state.ms + " ms";
+            }
+          } else if (state.status === "unknown") {
+            cls += " is-unknown";
+            statusLabel = "未检测";
           }
 
           html +=
-            '<li>' +
-              '<a class="' + cls + '" href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener noreferrer" data-id="' + r.id + '">' +
+            "<li>" +
+              '<a class="' + cls + '" href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener noreferrer">' +
                 '<span class="route-meta">' +
                   '<span class="route-top">' +
                     '<span class="route-label">' + escapeHtml(r.label) + "</span>" +
@@ -565,20 +558,27 @@
 
       function updateSummary() {
         var online = 0;
-        var done = 0;
+        var offline = 0;
+        var unknown = 0;
         var checking = 0;
+
         for (var i = 0; i < ROUTES.length; i++) {
           var s = (results[ROUTES[i].id] || {}).status;
           if (s === "online") online++;
-          if (s === "online" || s === "offline") done++;
-          if (s === "checking") checking++;
+          else if (s === "offline") offline++;
+          else if (s === "unknown") unknown++;
+          else if (s === "checking") checking++;
         }
 
         if (checking > 0) {
           summaryEl.innerHTML = "正在检测 <strong>" + checking + "</strong> 条线路…";
           return;
         }
-        if (done === 0) {
+        if (unknown === ROUTES.length) {
+          summaryEl.textContent = "连通性检测暂不可用 · 可直接点击进入";
+          return;
+        }
+        if (online + offline === 0) {
           summaryEl.textContent = "准备检测…";
           return;
         }
@@ -593,11 +593,11 @@
         for (var i = 0; i < ROUTES.length; i++) {
           var id = ROUTES[i].id;
           var s = results[id];
+          if (s) s.best = false;
           if (s && s.status === "online" && typeof s.ms === "number" && s.ms < bestMs) {
             bestMs = s.ms;
             bestId = id;
           }
-          if (s) s.best = false;
         }
         if (bestId) results[bestId].best = true;
       }
@@ -606,105 +606,76 @@
         ROUTES.sort(function (a, b) {
           var ra = results[a.id] || {};
           var rb = results[b.id] || {};
-          var score = function (r) {
+          function score(r) {
             if (r.status === "online") return r.ms || 0;
             if (r.status === "checking") return 1e7;
+            if (r.status === "unknown") return 1e7 + 5e6;
             if (r.status === "offline") return 1e8;
             return 1e9;
-          };
+          }
           return score(ra) - score(rb);
         });
       }
 
-      async function probeViaServer(url) {
-        var started = performance.now();
-        var res = await fetch("/api/health?u=" + encodeURIComponent(url), {
-          cache: "no-store",
-        });
-        var data = await res.json();
-        var ms = typeof data.ms === "number" ? data.ms : Math.round(performance.now() - started);
-        if (data.ok) return { status: "online", ms: ms };
-        return { status: "offline", ms: ms, error: data.error || "unreachable" };
-      }
-
-      async function probeViaClient(url) {
-        var controller = new AbortController();
-        var timer = setTimeout(function () { controller.abort(); }, TIMEOUT_MS);
-        var started = performance.now();
-        try {
-          await fetch(url, {
-            method: "GET",
-            mode: "no-cors",
-            cache: "no-store",
-            signal: controller.signal,
-          });
-          clearTimeout(timer);
-          return { status: "online", ms: Math.round(performance.now() - started) };
-        } catch (err) {
-          clearTimeout(timer);
-          var ms = Math.round(performance.now() - started);
-          var error = err && err.name === "AbortError" ? "timeout" : "unreachable";
-          return { status: "offline", ms: ms, error: error };
+      function setAll(status, extra) {
+        for (var i = 0; i < ROUTES.length; i++) {
+          results[ROUTES[i].id] = Object.assign({ status: status }, extra || {});
         }
       }
 
-      function detectProbeMode() {
-        if (useServerProbe !== null) return Promise.resolve(useServerProbe);
-        if (probeModePromise) return probeModePromise;
+      function applyServerResults(payload) {
+        var byUrl = {};
+        var list = (payload && payload.results) || [];
+        for (var i = 0; i < list.length; i++) {
+          byUrl[list[i].url] = list[i];
+        }
 
-        probeModePromise = (async function () {
-          try {
-            var res = await fetch("/api/health?u=" + encodeURIComponent(ROUTES[0].url), {
-              cache: "no-store",
-            });
-            useServerProbe = res.ok || res.status === 400 || res.status === 200;
-            if (res.status >= 500) useServerProbe = false;
-          } catch (e) {
-            useServerProbe = false;
+        for (var j = 0; j < ROUTES.length; j++) {
+          var route = ROUTES[j];
+          var item = byUrl[route.url];
+          if (!item) {
+            results[route.id] = { status: "unknown" };
+            continue;
           }
-
-          if (!useServerProbe && location.protocol === "https:") {
-            noteEl.hidden = false;
-            noteEl.textContent =
-              "当前为 HTTPS 页面，浏览器无法直接探测 HTTP 线路。请确保已部署 Cloudflare Pages Function（/api/health）。";
+          if (item.ok) {
+            results[route.id] = { status: "online", ms: item.ms };
           } else {
-            noteEl.hidden = true;
+            results[route.id] = {
+              status: "offline",
+              ms: item.ms,
+              error: item.error || "unreachable",
+            };
           }
-          return useServerProbe;
-        })();
-
-        return probeModePromise;
-      }
-
-      async function checkOne(route, serverMode) {
-        var result;
-        try {
-          result = serverMode
-            ? await probeViaServer(route.url)
-            : await probeViaClient(route.url);
-        } catch (e) {
-          result = { status: "offline", error: "unreachable", ms: TIMEOUT_MS };
         }
-        results[route.id] = result;
-        markBest();
-        renderList();
-        updateSummary();
       }
 
       async function checkAll() {
         refreshBtn.disabled = true;
         refreshBtn.classList.add("is-busy");
+        noteEl.hidden = true;
 
-        for (var i = 0; i < ROUTES.length; i++) {
-          results[ROUTES[i].id] = { status: "checking" };
-        }
+        setAll("checking");
         renderList();
         updateSummary();
 
-        var serverMode = await detectProbeMode();
-        await Promise.all(ROUTES.map(function (route) {
-          return checkOne(route, serverMode);
-        }));
+        try {
+          var res = await fetch("/api/health", { cache: "no-store" });
+          var type = (res.headers.get("content-type") || "").toLowerCase();
+
+          if (!res.ok || type.indexOf("application/json") === -1) {
+            throw new Error("no_api");
+          }
+
+          var data = await res.json();
+          applyServerResults(data);
+          noteEl.hidden = true;
+        } catch (err) {
+          // Avoid false "offline" when HTTPS blocks direct HTTP probes
+          setAll("unknown");
+          noteEl.hidden = false;
+          noteEl.textContent =
+            "当前无法自动检测线路状态（需部署边缘检测接口）。请直接点击上方线路尝试访问。";
+        }
 
         markBest();
         sortRoutesByHealth();
