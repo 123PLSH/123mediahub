@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MediaHub 防丢失媒体分享网站 · 马卡龙明亮配色">
-  <meta name="theme-color" content="#fcf8f0">
+  <meta name="description" content="MediaHub 防丢失媒体分享网站 · 明亮简约">
+  <meta name="theme-color" content="#ffffff">
   <meta property="og:title" content="MediaHub 防丢失媒体分享网站">
   <meta property="og:description" content="多线路互备，收藏本站防止丢失。">
-  <title>MediaHub · 马卡龙明亮版</title>
+  <title>MediaHub · 123云盘媒体站</title>
   <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ～ 优化后的马卡龙调色盘 (更柔和的低饱和色) ～ */
+    /* ～ 明亮简约调色盘 ～ */
     * {
       margin: 0;
       padding: 0;
@@ -21,24 +21,25 @@
     }
 
     :root {
-      /* 背景：更干净柔和的奶油色 */
-      --bg-soft: #fdfbf7;
-      /* 卡片：更高透，雾面感 */
-      --bg-card: rgba(255, 255, 255, 0.78);
-      /* 主文字：暖灰紫，更轻盈 */
-      --ink-primary: #46404f;
-      --ink-secondary: #6f6a7c;
-      --mute-light: #b1abbd;
-      /* 马卡龙色升级：更柔和明快 */
-      --macaroon-pink: #fcc9cb;     /* 樱花粉 */
-      --macaroon-peach: #fdd8ba;    /* 蜜桃 */
-      --macaroon-mint: #c1e6d7;     /* 薄荷 */
-      --macaroon-lavender: #dbcfee; /* 薰衣草 */
-      --macaroon-yellow: #fae7b3;   /* 香槟黄 */
-      --gold-soft: #dcc08c;         /* 柔和金 */
-      --gold-bright: #edd9a8;
-      --shadow-macaroon: 0 16px 32px -12px rgba(160, 140, 170, 0.18);
-      --radius-card: 32px;
+      --bg-pure: #ffffff;
+      --bg-soft: #f9fafb;
+      --bg-card: #ffffff;
+      --ink-primary: #1f2937;
+      --ink-secondary: #6b7280;
+      --mute-light: #9ca3af;
+      /* 明亮高光色 */
+      --accent-blue: #3b82f6;
+      --accent-blue-soft: #dbeafe;
+      --accent-green: #10b981;
+      --accent-green-soft: #d1fae5;
+      --accent-amber: #f59e0b;
+      --accent-amber-soft: #fef3c7;
+      --accent-rose: #f43f5e;
+      --accent-rose-soft: #ffe4e6;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 12px 28px -6px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+      --radius-card: 20px;
       --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
       --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
     }
@@ -57,49 +58,23 @@
       position: relative;
       min-height: 100vh;
       background:
-        radial-gradient(ellipse 70% 40% at 20% 20%, #fef3ef 0%, transparent 65%),
-        radial-gradient(ellipse 60% 50% at 90% 70%, #eaf6f0 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 40% 90%, #f9f0fa 0%, transparent 55%),
+        radial-gradient(ellipse 80% 50% at 50% -10%, #eff6ff 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 90%, #ecfdf5 0%, transparent 60%),
         var(--bg-soft);
       background-attachment: fixed;
     }
 
-    /* —— 柔和装饰颗粒 —— */
+    /* —— 极简柔和光晕 —— */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.15;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.3'/%3E%3C/svg%3E");
-      mix-blend-mode: soft-light;
+      opacity: 0.5;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
     }
-
-    /* —— 胶片齿孔 (更淡) —— */
-    .rails {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.05;
-    }
-
-    .rails span {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 18px;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0 12px,
-        var(--ink-primary) 12px 20px,
-        transparent 20px 32px
-      );
-    }
-
-    .rails span:first-child { left: clamp(0.5rem, 2vw, 1.5rem); }
-    .rails span:last-child { right: clamp(0.5rem, 2vw, 1.5rem); }
 
     /* —— 主容器 —— */
     .shell {
@@ -110,10 +85,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      backdrop-filter: blur(2px);
     }
 
-    /* —— 品牌 (更细腻的马卡龙渐变) —— */
+    /* —— 品牌 (明亮渐变) —— */
     .brand {
       font-family: "Syne", "Noto Sans SC", sans-serif;
       font-weight: 800;
@@ -122,47 +96,47 @@
       line-height: 0.92;
       margin-bottom: 0.5rem;
       animation: floatIn 0.7s var(--ease-bounce) both;
-      filter: drop-shadow(0 6px 14px rgba(200, 170, 200, 0.12));
+      filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.1));
     }
 
     .brand em {
       font-style: normal;
-      background: linear-gradient(145deg, #fcc9cb 0%, #fdd8ba 35%, #c1e6d7 70%, #dbcfee 100%);
-      background-size: 220% 100%;
+      background: linear-gradient(135deg, #3b82f6 0%, #10b981 50%, #f59e0b 100%);
+      background-size: 200% 100%;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: macaroonShimmer 8s ease-in-out infinite alternate;
+      animation: shimmer 8s ease-in-out infinite alternate;
     }
 
-    @keyframes macaroonShimmer {
+    @keyframes shimmer {
       0% { background-position: 0% 50%; }
       100% { background-position: 100% 50%; }
     }
 
     @keyframes floatIn {
-      0% { opacity: 0; transform: translateY(18px) scale(0.96); }
+      0% { opacity: 0; transform: translateY(16px) scale(0.97); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* —— 装饰线 (柔和彩色) —— */
+    /* —— 装饰线 (三色明亮) —— */
     .rule {
-      width: 5.6rem;
+      width: 5rem;
       height: 3px;
       margin: 0 auto 0.8rem;
-      background: linear-gradient(90deg, var(--macaroon-pink), var(--macaroon-yellow), var(--macaroon-mint), var(--macaroon-lavender));
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-green), var(--accent-amber));
       background-size: 250% 100%;
       border-radius: 20px;
-      opacity: 0.7;
-      animation: drawGlow 0.8s var(--ease-smooth) 0.2s both, rainbowSlide 6s ease-in-out infinite alternate;
+      opacity: 0.8;
+      animation: drawGlow 0.8s var(--ease-smooth) 0.2s both, slide 6s ease-in-out infinite alternate;
     }
 
     @keyframes drawGlow {
       0% { transform: scaleX(0); opacity: 0; }
-      100% { transform: scaleX(1); opacity: 0.7; }
+      100% { transform: scaleX(1); opacity: 0.8; }
     }
 
-    @keyframes rainbowSlide {
+    @keyframes slide {
       0% { background-position: 0% 50%; }
       100% { background-position: 100% 50%; }
     }
@@ -189,11 +163,11 @@
     }
 
     @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(14px); }
+      0% { opacity: 0; transform: translateY(12px); }
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* —— 线路卡片 (更通透的玻璃感) —— */
+    /* —— 线路卡片 (明亮简约) —— */
     .routes {
       display: flex;
       flex-direction: column;
@@ -213,60 +187,20 @@
       text-decoration: none;
       color: var(--ink-primary);
       background: var(--bg-card);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.85);
+      border: 1px solid #e5e7eb;
       border-radius: var(--radius-card);
-      box-shadow: var(--shadow-macaroon), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-      transition: all 0.4s var(--ease-bounce);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.35s var(--ease-bounce);
       isolation: isolate;
       overflow: hidden;
       transform: translateY(0);
     }
 
-    /* 柔和光晕扫过 */
-    .routes a::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, transparent 30%, rgba(255, 248, 235, 0.7) 50%, transparent 70%);
-      transform: translateX(-150%);
-      transition: transform 0.7s var(--ease-smooth);
-      z-index: -1;
-      border-radius: var(--radius-card);
-    }
-
-    .routes a:hover::before,
-    .routes a:focus-visible::before {
-      transform: translateX(150%);
-    }
-
-    /* 彩色描边光晕 (更细腻) */
-    .routes a::after {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      border-radius: var(--radius-card);
-      padding: 2px;
-      background: conic-gradient(from 150deg at 50% 50%, var(--macaroon-pink), var(--macaroon-yellow), var(--macaroon-mint), var(--macaroon-lavender), var(--macaroon-pink));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-
-    .routes a:hover::after,
-    .routes a:focus-visible::after {
-      opacity: 0.8;
-    }
-
     .routes a:hover,
     .routes a:focus-visible {
-      transform: translateY(-5px) scale(1.01);
-      border-color: rgba(255, 220, 190, 0.7);
-      background: rgba(255, 251, 245, 0.95);
-      box-shadow: 0 22px 44px -14px rgba(170, 150, 180, 0.28), 0 0 0 1px rgba(255, 210, 180, 0.3);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #bfdbfe;
+      box-shadow: var(--shadow-lg), 0 0 0 3px rgba(59, 130, 246, 0.08);
       outline: none;
     }
 
@@ -274,19 +208,19 @@
       transform: translateY(-1px) scale(0.99);
     }
 
-    /* 主线路 (柔和高亮) */
+    /* 主线路 (明亮蓝调) */
     .primary {
-      background: linear-gradient(145deg, #fff9f2, #fffdf9);
-      border-color: rgba(255, 215, 180, 0.6);
-      box-shadow: 0 10px 28px -10px rgba(250, 190, 170, 0.3), var(--shadow-macaroon);
+      background: linear-gradient(145deg, #f0f7ff, #ffffff);
+      border-color: #bfdbfe;
+      box-shadow: 0 4px 16px -4px rgba(59, 130, 246, 0.15), var(--shadow-sm);
     }
 
     .primary .route-name {
-      color: #b77f6e;
+      color: #2563eb;
     }
 
     .primary .route-name::before {
-      color: #f7c5b5;
+      color: #60a5fa;
     }
 
     .route-copy {
@@ -307,10 +241,10 @@
     }
 
     .route-name::before {
-      content: "✦";
-      font-size: 0.7rem;
-      color: var(--gold-soft);
-      opacity: 0.8;
+      content: "◆";
+      font-size: 0.6rem;
+      color: var(--accent-blue);
+      opacity: 0.7;
       margin-right: 0.15rem;
     }
 
@@ -326,7 +260,7 @@
 
     .route-meta::before {
       content: "·";
-      color: var(--gold-soft);
+      color: var(--mute-light);
       font-weight: 700;
       font-size: 0.9rem;
       opacity: 0.7;
@@ -337,25 +271,25 @@
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.08em;
-      color: #b58a7a;
+      color: #3b82f6;
       display: inline-flex;
       align-items: center;
       gap: 0.2rem;
       padding: 0.25rem 0.7rem 0.25rem 0.9rem;
       border-radius: 40px;
-      background: rgba(250, 210, 190, 0.2);
-      border: 1px solid rgba(250, 210, 190, 0.3);
-      transition: all 0.4s var(--ease-bounce);
+      background: var(--accent-blue-soft);
+      border: 1px solid #bfdbfe;
+      transition: all 0.35s var(--ease-bounce);
       white-space: nowrap;
     }
 
     .routes a:hover .route-go,
     .routes a:focus-visible .route-go {
       gap: 0.7rem;
-      background: rgba(250, 210, 190, 0.35);
-      border-color: rgba(245, 190, 170, 0.5);
-      color: #a57766;
-      box-shadow: 0 4px 14px rgba(245, 190, 170, 0.15);
+      background: #dbeafe;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.12);
     }
 
     .route-go svg {
@@ -371,7 +305,25 @@
       transform: translateX(4px);
     }
 
-    /* —— 收藏按钮 (更轻盈) —— */
+    /* 备用线路微调 (绿色点缀) */
+    .routes li:nth-child(2) .route-name::before {
+      color: var(--accent-green);
+    }
+
+    .routes li:nth-child(2) .route-go {
+      color: #10b981;
+      background: var(--accent-green-soft);
+      border-color: #a7f3d0;
+    }
+
+    .routes li:nth-child(2) a:hover .route-go {
+      background: #d1fae5;
+      border-color: #6ee7b7;
+      color: #047857;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);
+    }
+
+    /* —— 收藏按钮 (明亮简约) —— */
     .actions {
       margin-top: 2.2rem;
       animation: fadeUp 0.7s var(--ease-smooth) 0.5s both;
@@ -397,14 +349,14 @@
     .actions button::before {
       content: "♡";
       font-size: 1.1rem;
-      color: var(--macaroon-pink);
+      color: var(--accent-rose);
       transition: transform 0.3s var(--ease-bounce);
     }
 
     .actions button:hover,
     .actions button:focus-visible {
       color: var(--ink-primary);
-      border-bottom-color: var(--macaroon-pink);
+      border-bottom-color: var(--accent-rose);
       outline: none;
       transform: translateY(-2px);
     }
@@ -419,7 +371,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.12em;
       color: var(--mute-light);
-      border-top: 1px solid rgba(120, 100, 120, 0.08);
+      border-top: 1px solid #f3f4f6;
       padding-top: 1.4rem;
       width: 100%;
       text-align: center;
@@ -434,8 +386,6 @@
         padding-top: 8vh;
       }
 
-      .rails { display: none; }
-
       .lede {
         max-width: 92%;
         font-size: 0.92rem;
@@ -443,7 +393,7 @@
 
       .routes a {
         padding: 1.1rem 1.3rem;
-        border-radius: 26px;
+        border-radius: 16px;
       }
 
       .route-name {
@@ -464,29 +414,11 @@
         transition: none !important;
         transform: none !important;
       }
-      body::before { opacity: 0.06; }
-    }
-
-    /* 光标跟随柔光 (更淡) */
-    .shell::after {
-      content: "";
-      position: fixed;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(255, 215, 200, 0.06) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transition: all 0.1s;
+      body::before { opacity: 0.15; }
     }
   </style>
 </head>
 <body>
-  <div class="rails" aria-hidden="true"><span></span><span></span></div>
-
   <main class="shell">
     <h1 class="brand"><em>MediaHub</em></h1>
     <div class="rule" aria-hidden="true"></div>
@@ -494,7 +426,7 @@
     <p class="lede">任选一条线路进入电影站，收藏本站随时回来。</p>
 
     <ul class="routes" aria-label="访问线路">
-      <!-- 只保留备用线路，移除117线路，主线路改为备用线路 -->
+      <!-- 主线路：45.113.3.26 -->
       <li>
         <a class="primary" href="http://45.113.3.26/movies" target="_blank" rel="noopener noreferrer">
           <span class="route-copy">
@@ -507,7 +439,7 @@
           </span>
         </a>
       </li>
-      <!-- 第二条保留一个备用，但为了避免重复，改为不同的描述？但只有这一个IP了，就放一个备用线路的样式 -->
+      <!-- 备用线路：同一个 IP，但为了保持两条线路的视觉结构，这里作为备用显示 -->
       <li>
         <a href="http://45.113.3.26/movies" target="_blank" rel="noopener noreferrer">
           <span class="route-copy">
@@ -527,7 +459,7 @@
     </div>
 
     <footer>
-      <p>&copy; 2026 MediaHub · 马卡龙版</p>
+      <p>&copy; 2026 MediaHub · 明亮简约版</p>
     </footer>
   </main>
 
@@ -558,7 +490,7 @@
       });
 
       btn.addEventListener("focus", function() {
-        this.style.borderBottomColor = "#fcc9cb";
+        this.style.borderBottomColor = "#f43f5e";
       });
       btn.addEventListener("blur", function() {
         this.style.borderBottomColor = "transparent";
